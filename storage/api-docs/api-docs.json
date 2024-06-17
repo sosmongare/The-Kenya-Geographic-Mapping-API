@@ -1,0 +1,769 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kenya Administrative Boundaries API(KenyaAdminAPI) - Documentation",
+        "description": "The Kenya Administrative Boundaries API (KenAdminAPI) provides a comprehensive and easy-to-use interface for accessing detailed information about Kenya's administrative divisions, including Counties, Constituencies, and Wards. This API is designed to help developers integrate location-based data into their applications, supporting a wide range of use cases from geographical analysis to service delivery.",
+        "contact": {
+            "email": "sosmongare@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://127.0.0.1:8000",
+            "description": "Local secure server"
+        },
+        {
+            "url": ""
+        }
+    ],
+    "paths": {
+        "/api/constituencies": {
+            "get": {
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Get list of constituencies",
+                "operationId": "82e23da030eb11f9a17938c0114c75b5",
+                "responses": {
+                    "200": {
+                        "description": "Constituencies retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Constituency"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Create a new constituency",
+                "operationId": "d112701fedbfa4580123aa277f73d94b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "county_id",
+                                    "constituency_name"
+                                ],
+                                "properties": {
+                                    "county_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "constituency_name": {
+                                        "type": "string",
+                                        "example": "Westlands"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Constituency created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Constituency"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/constituencies/{id}": {
+            "get": {
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Get a constituency by ID",
+                "operationId": "582332ca73c91da2140d75e45c5689ea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Constituency retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Constituency"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Update a constituency",
+                "operationId": "ce3bd866f4a6489e7481d8002a194b6e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "county_id",
+                                    "constituency_name"
+                                ],
+                                "properties": {
+                                    "county_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "constituency_name": {
+                                        "type": "string",
+                                        "example": "Westlands"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Constituency updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Constituency"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Delete a constituency",
+                "operationId": "751381a64026663cf053bb8ff41ff641",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Constituency deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/constituencies/search/{query}": {
+            "get": {
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Search for constituencies",
+                "operationId": "f4c29d61169fc61229d82667d5e02f6f",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Constituency"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No results found for the given query",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/counties": {
+            "get": {
+                "tags": [
+                    "Counties"
+                ],
+                "summary": "Get list of counties",
+                "operationId": "063497438427af6c02da6ea6f2dce272",
+                "responses": {
+                    "200": {
+                        "description": "Counties retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/County"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Counties"
+                ],
+                "summary": "Create a new county",
+                "operationId": "d6461e1ec40eedbd8f29323528557227",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "county_name"
+                                ],
+                                "properties": {
+                                    "county_name": {
+                                        "type": "string",
+                                        "example": "Nairobi"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "County created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/County"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/counties/{id}": {
+            "get": {
+                "tags": [
+                    "Counties"
+                ],
+                "summary": "Get a county by ID",
+                "operationId": "2c5dc583b4811058d596c5bdfa2e67e7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "County retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/County"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Counties"
+                ],
+                "summary": "Update a county",
+                "operationId": "7285c6fe82c79e5518ad13fcb5dbec34",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "county_name"
+                                ],
+                                "properties": {
+                                    "county_name": {
+                                        "type": "string",
+                                        "example": "Nairobi"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "County updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/County"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Counties"
+                ],
+                "summary": "Delete a county",
+                "operationId": "3ce0c0a403e29c09d152e4dceb116a2e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "County deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/counties/search/{query}": {
+            "get": {
+                "tags": [
+                    "Counties"
+                ],
+                "summary": "Search for counties",
+                "operationId": "8805d22e43fa945ef26254088926e0f4",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/County"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No results found for the given query",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/wards": {
+            "get": {
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Get list of wards",
+                "operationId": "fd963a232855fa6760db529d5a6d29c9",
+                "responses": {
+                    "200": {
+                        "description": "Wards retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ward"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Create a new ward",
+                "operationId": "c1b6d51cc648a74b8b1772e91d16f0b4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "constituency_id",
+                                    "ward_name"
+                                ],
+                                "properties": {
+                                    "constituency_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "ward_name": {
+                                        "type": "string",
+                                        "example": "Parklands"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ward created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ward"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/wards/{id}": {
+            "get": {
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Get a ward by ID",
+                "operationId": "451b442228cb500e1c3ff98bfaeeffe6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ward retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ward"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Update a ward",
+                "operationId": "e49f9c42aae1c996a3399c47447c2317",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "constituency_id",
+                                    "ward_name"
+                                ],
+                                "properties": {
+                                    "constituency_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "ward_name": {
+                                        "type": "string",
+                                        "example": "Parklands"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ward updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ward"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Delete a ward",
+                "operationId": "b84ab47cf19a93815411f8749ecc42fe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Ward deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/wards/search/{query}": {
+            "get": {
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Search for wards",
+                "operationId": "b1ea501ba9098966042b9f8ae27b02ff",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ward"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No results found for the given query",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Constituency": {
+                "title": "Constituency",
+                "description": "Constituency model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID of the constituency",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "county_id": {
+                        "title": "County ID",
+                        "description": "ID of the county the constituency belongs to",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "constituency_name": {
+                        "title": "Constituency Name",
+                        "description": "Name of the constituency",
+                        "type": "string",
+                        "example": "Westlands"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Constituency"
+                }
+            },
+            "County": {
+                "title": "County",
+                "description": "County model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID of the county",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "county_name": {
+                        "title": "County Name",
+                        "description": "Name of the county",
+                        "type": "string",
+                        "example": "Nairobi"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "County"
+                }
+            },
+            "Ward": {
+                "title": "Ward",
+                "description": "Ward model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID of the ward",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "constituency_id": {
+                        "title": "Constituency ID",
+                        "description": "ID of the constituency the ward belongs to",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ward_name": {
+                        "title": "Ward Name",
+                        "description": "Name of the ward",
+                        "type": "string",
+                        "example": "Parklands"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Ward"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Counties",
+            "description": "Endpoints related to counties"
+        },
+        {
+            "name": "Constituencies",
+            "description": "Endpoints related to constituencies"
+        },
+        {
+            "name": "Wards",
+            "description": "Endpoints related to wards"
+        }
+    ]
+}
