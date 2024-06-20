@@ -10,11 +10,12 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::middleware('admin')->group(function () {
+    Route::apiResource('counties', CountyController::class);
+    Route::apiResource('constituencies', ConstituencyController::class);
+    Route::apiResource('wards', WardController::class);
 
-Route::apiResource('counties', CountyController::class);
-Route::apiResource('constituencies', ConstituencyController::class);
-Route::apiResource('wards', WardController::class);
-
-Route::get('counties/search/{query}', [CountyController::class, 'search']);
-Route::get('constituencies/search/{query}', [ConstituencyController::class, 'search']);
-Route::get('wards/search/{query}', [WardController::class, 'search']);
+    Route::get('counties/search/{query}', [CountyController::class, 'search']);
+    Route::get('constituencies/search/{query}', [ConstituencyController::class, 'search']);
+    Route::get('wards/search/{query}', [WardController::class, 'search']);
+});

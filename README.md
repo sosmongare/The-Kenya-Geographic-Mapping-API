@@ -251,7 +251,7 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ## Contact
 
 For any questions or suggestions, please contact the developer:
-
+_ **
 - **Email**: sosmongare@gmail.com
+- **Twitter**: [sosmongare@gmail.com](https://x.com/msnmongare)
 - **Name**: Sospeter Mongare
-- **Website**: [example.com](https://www.example.com)
