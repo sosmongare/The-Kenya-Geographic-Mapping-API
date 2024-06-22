@@ -43,6 +43,6 @@ class County extends Model
     public $county_name;
 
     protected $fillable = [
-        'county_name'
+        'county_name','updated_at', 'created_at'
     ];
 }

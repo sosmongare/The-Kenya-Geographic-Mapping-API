@@ -1,9 +1,5 @@
 <?php
 
-if (env('APP_ENV') === 'local') {
-    return;
-}
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wards', function (Blueprint $table) {
+        Schema::create('constituencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('constituency_id')->constrained()->onDelete('cascade');
-            $table->string('ward_name');
+            $table->foreignId('county_id')->constrained()->onDelete('cascade');
+            $table->string('constituency_name');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wards');
+        Schema::dropIfExists('constituencies');
     }
 };

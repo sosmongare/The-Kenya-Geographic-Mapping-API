@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -12,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('constituencies', function (Blueprint $table) {
+        Schema::create('wards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('county_id')->constrained()->onDelete('cascade');
-            $table->string('constituency_name');
+            $table->foreignId('constituency_id')->constrained()->onDelete('cascade');
+            $table->string('ward_name');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('constituencies');
+        Schema::dropIfExists('wards');
     }
 };

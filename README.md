@@ -74,59 +74,6 @@ Note: These are Resources for Developers and/or anyone who needs all the Countie
 
 The API documentation is generated using Swagger and can be accessed at `http://127.0.0.1:8000/api/documentation`.
 
-## Deployment
-
-### Deploying to Vercel
-
-To deploy the KenAdminAPI to Vercel, follow these steps:
-
-1. **Create `vercel.json`** in the root of your project:
-
-    ```json
-    {
-      "version": 2,
-      "builds": [
-        {
-          "src": "api/index.php",
-          "use": "@vercel/php"
-        },
-        {
-          "src": "public/index.php",
-          "use": "@vercel/php"
-        }
-      ],
-      "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "/public/index.php"
-        }
-      ]
-    }
-    ```
-
-2. **Create `api/index.php`** in the root of your project:
-
-    ```php
-    <?php
-
-    require __DIR__ . '/../vendor/autoload.php';
-    $app = require_once __DIR__ . '/../bootstrap/app.php';
-
-    $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-    $response = $kernel->handle(
-        $request = Illuminate\Http\Request::capture()
-    );
-    $response->send();
-
-    $kernel->terminate($request, $response);
-    ```
-
-3. **Push to GitHub** and connect Vercel to your repository.
-
-4. **Set Environment Variables** in the Vercel dashboard to match those in your `.env` file.
-
-5. **Deploy** your application from the Vercel dashboard.
-
 ## Usage
 
 ### Counties

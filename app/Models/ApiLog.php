@@ -16,6 +16,6 @@ class ApiLog extends Model
         'status',
         'ip',
         'user_agent',
-        'response_time',
+        'response_time','updated_at', 'created_at'
     ];
 }

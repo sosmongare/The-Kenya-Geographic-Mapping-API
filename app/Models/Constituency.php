@@ -53,6 +53,6 @@ class Constituency extends Model
     public $constituency_name;
 
     protected $fillable = [
-        'county_id', 'constituency_name'
+        'county_id', 'constituency_name','updated_at', 'created_at'
     ];
 }

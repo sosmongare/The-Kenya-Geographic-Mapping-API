@@ -53,6 +53,6 @@ class Ward extends Model
     public $ward_name;
 
     protected $fillable = [
-        'constituency_id','ward_name'
+        'constituency_id','ward_name','updated_at', 'created_at'
     ];
 }
