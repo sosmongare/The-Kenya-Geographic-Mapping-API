@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ward;
 use App\Models\Constituency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -24,13 +25,30 @@ class ConstituencyController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 15); // Default to 15 items per page
-        $constituencies = Constituency::paginate($perPage);
+        $countyId = $request->input('county_id');
+        $countyName = $request->input('county_name');
+    
+        $query = Constituency::query();
+    
+        if ($countyId) {
+            $query->where('county_id', $countyId);
+        }
+    
+        if ($countyName) {
+            $query->whereHas('county', function($q) use ($countyName) {
+                $q->where('county_name', 'like', "%$countyName%");
+            });
+        }
+    
+        $constituencies = $query->paginate($perPage);
+    
         return response()->json([
             'status' => 'success',
             'message' => 'Constituencies retrieved successfully',
             'data' => $constituencies
         ], 200);
     }
+    
 
     /**
      * @OA\Post(
@@ -100,7 +118,7 @@ class ConstituencyController extends Controller
         if (!$constituency) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Constituency not found'
+                'message' => 'Constituencys not found'
             ], 404);
         }
 
@@ -227,26 +245,58 @@ class ConstituencyController extends Controller
      *     )
      * )
      */
-    public function search($query, Request $request)
+    public function search(Request $request)
     {
-        $perPage = $request->input('per_page', 15); // Default to 15 items per page
-        $constituencies = Constituency::where('constituency_name', 'like', "%$query%")
-            ->orWhere('id', $query)
-            ->paginate($perPage);
-
+        $constituencyName = $request->query('constituency_name');
+    
+        if (empty($constituencyName)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'constituency_name query parameter is required'
+            ], 400);
+        }
+    
+        $constituencies = Constituency::where('constituency_name', 'LIKE', '%' . $constituencyName . '%')->get();
+    
         if ($constituencies->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No results found for the given query',
-                'data' => []
+                'message' => 'No constituencies found matching the specified name'
             ], 404);
         }
-
         return response()->json([
             'status' => 'success',
-            'message' => 'Search results retrieved successfully',
+            'message' => 'Constituencies retrieved successfully',
             'data' => $constituencies
         ], 200);
     }
+    
+    public function getWardsByConstituency($constituency_id)
+    {
+        $wards = Ward::where('constituency_id', $constituency_id)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Wards retrieved successfully',
+            'data' => $wards
+        ], 200);
+    }
+
+    public function getWardsByCountyAndConstituency($county_id, $constituency_id)
+    {
+        $wards = Ward::whereHas('constituency', function($query) use ($county_id, $constituency_id) {
+            $query->where('county_id', $county_id)
+                ->where('id', $constituency_id);
+        })->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Wards retrieved successfully',
+            'data' => $wards
+        ], 200);
+    }
+
+
+
     
 }

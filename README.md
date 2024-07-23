@@ -1,6 +1,6 @@
-# Kenya Administrative Boundaries API (KenAdminAPI)
+# The Kenya Geographic Mapping API (KenyaGeoMapAPI)
 
-The Kenya Administrative Boundaries API (KenAdminAPI) provides a comprehensive and easy-to-use interface for accessing detailed information about Kenya's administrative divisions, including Counties, Constituencies, and Wards. This API is designed to help developers integrate location-based data into their applications, supporting a wide range of use cases from geographical analysis to service delivery.
+The Kenya Geographic Mapping API (KenyaGeoMapAPI) provides detailed information about Kenya's counties, constituencies, and wards, enabling developers to integrate precise location-based data into their applications for various use cases such as geographical analysis, service delivery, and resource allocation.
 
 Note: These are Resources for Developers and/or anyone who needs all the Counties, Constituencies, and Wards in Kenya
 

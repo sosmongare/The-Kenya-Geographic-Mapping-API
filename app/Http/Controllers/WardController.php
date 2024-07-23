@@ -227,26 +227,32 @@ class WardController extends Controller
      *     )
      * )
      */
-    public function search($query, Request $request)
+    public function search(Request $request)
     {
-        $perPage = $request->input('per_page', 15); // Default to 15 items per page
-        $wards = Ward::where('ward_name', 'like', "%$query%")
-            ->orWhere('id', $query)
-            ->paginate($perPage);
+        $wardName = $request->query('ward_name');
+    
+        if (empty($wardName)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'ward_name query parameter is required'
+            ], 400);
+        }
+    
+        $wards = Ward::where('ward_name', 'LIKE', '%' . $wardName . '%')->get();
 
         if ($wards->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No results found for the given query',
-                'data' => []
+                'message' => 'No wards found matching the specified name'
             ], 404);
         }
-
+    
         return response()->json([
             'status' => 'success',
-            'message' => 'Search results retrieved successfully',
+            'message' => 'Wards retrieved successfully',
             'data' => $wards
         ], 200);
     }
+    
     
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\County;
+use App\Models\Constituency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
 
 
 class CountyController extends Controller
@@ -24,8 +24,7 @@ class CountyController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 15); // Default to 15 items per page
-        $counties = County::paginate($perPage);
+        $counties = County::paginate();
         return response()->json([
             'status' => 'success',
             'message' => 'Counties retrieved successfully',
@@ -224,26 +223,47 @@ class CountyController extends Controller
      *     )
      * )
      */
-    public function search($query, Request $request)
-    {
-        $perPage = $request->input('per_page', 15); // Default to 15 items per page
-        $counties = County::where('county_name', 'like', "%$query%")
-            ->orWhere('id', $query)
-            ->paginate($perPage);
 
+    //Search counties by name
+    public function search(Request $request)
+    {
+        $countyName = $request->query('county_name');
+
+        if (empty($countyName)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'county_name query parameter is required'
+            ], 400);
+        }
+
+        $counties = County::where('county_name', 'LIKE', '%' . $countyName . '%')->get();
+        
         if ($counties->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No results found for the given query',
-                'data' => []
+                'message' => 'No counties found matching the specified name'
             ], 404);
         }
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Search results retrieved successfully',
+            'message' => 'Counties retrieved successfully',
             'data' => $counties
         ], 200);
     }
+
+    public function getConstituenciesByCounty($county_id)
+    {
+        $constituencies = Constituency::where('county_id', $county_id)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Constituencies retrieved successfully',
+            'data' => $constituencies
+        ], 200);
+    }
+
+
+    
     
 }

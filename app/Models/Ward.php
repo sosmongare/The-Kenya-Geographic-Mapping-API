@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Constituency;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @OA\Schema(
@@ -55,4 +56,9 @@ class Ward extends Model
     protected $fillable = [
         'constituency_id','ward_name','updated_at', 'created_at'
     ];
+
+    public function constituency()
+    {
+        return $this->belongsTo(Constituency::class);
+    }
 }
